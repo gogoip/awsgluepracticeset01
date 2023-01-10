@@ -1,0 +1,40 @@
+{
+  "name" : "parameter_test02",
+  "description" : "",
+  "role" : "arn:aws:iam::408540077842:role/aws-glue-s3-read-write",
+  "executionProperty" : {
+    "maxConcurrentRuns" : 1
+  },
+  "command" : {
+    "name" : "glueetl",
+    "scriptLocation" : "s3://aws-glue-assets-408540077842-us-east-1/scripts/parameter_test02",
+    "pythonVersion" : "3"
+  },
+  "defaultArguments" : {
+    "--enable-metrics" : "true",
+    "--enable-spark-ui" : "true",
+    "--spark-event-logs-path" : "s3://aws-glue-assets-408540077842-us-east-1/sparkHistoryLogs/",
+    "--enable-job-insights" : "true",
+    "--enable-glue-datacatalog" : "true",
+    "--enable-continuous-cloudwatch-log" : "true",
+    "--filterID" : "26",
+    "--job-bookmark-option" : "job-bookmark-enable",
+    "--job-language" : "python",
+    "--TempDir" : "s3://aws-glue-assets-408540077842-us-east-1/temporary/"
+  },
+  "maxRetries" : 3,
+  "allocatedCapacity" : 10,
+  "timeout" : 2880,
+  "maxCapacity" : 10.0,
+  "glueVersion" : "3.0",
+  "numberOfWorkers" : 10,
+  "workerType" : "G.1X",
+  "executionClass" : "STANDARD",
+  "codeGenConfigurationNodes" : "{\"node-1\":{\"S3CsvSource\":{\"AdditionalOptions\":{\"EnableSamplePath\":false,\"SamplePath\":\"s3://bw-datapipeline/input/bqp2/applications_202212072030.csv\"},\"Escaper\":\"\",\"Exclusions\":[],\"Name\":\"S3 bucket\",\"OptimizePerformance\":false,\"OutputSchemas\":[{\"Columns\":[{\"Name\":\"id\",\"Type\":\"bigint\"},{\"Name\":\"hcl\",\"Type\":\"string\"},{\"Name\":\"dateCreated\",\"Type\":\"string\"},{\"Name\":\"dateUpdated\",\"Type\":\"string\"},{\"Name\":\"accountHcl\",\"Type\":\"string\"},{\"Name\":\"name\",\"Type\":\"string\"},{\"Name\":\"url\",\"Type\":\"string\"},{\"Name\":\"numOffices\",\"Type\":\"bigint\"},{\"Name\":\"numEmployees\",\"Type\":\"bigint\"},{\"Name\":\"status\",\"Type\":\"string\"},{\"Name\":\"scriptResponseSetId\",\"Type\":\"bigint\"}]}],\"Paths\":[\"s3://bw-datapipeline/input/bqp2/applications_202212072030.csv\"],\"QuoteChar\":\"quote\",\"Recurse\":true,\"Separator\":\"comma\",\"WithHeader\":true}},\"node-2\":{\"ApplyMapping\":{\"Inputs\":[\"node-1\"],\"Mapping\":[{\"Dropped\":false,\"FromPath\":[\"id\"],\"FromType\":\"bigint\",\"ToKey\":\"id\",\"ToType\":\"long\"},{\"Dropped\":false,\"FromPath\":[\"hcl\"],\"FromType\":\"string\",\"ToKey\":\"hcl\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"dateCreated\"],\"FromType\":\"string\",\"ToKey\":\"dateCreated\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"dateUpdated\"],\"FromType\":\"string\",\"ToKey\":\"dateUpdated\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"accountHcl\"],\"FromType\":\"string\",\"ToKey\":\"accountHcl\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"name\"],\"FromType\":\"string\",\"ToKey\":\"name\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"url\"],\"FromType\":\"string\",\"ToKey\":\"url\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"numOffices\"],\"FromType\":\"bigint\",\"ToKey\":\"numOffices\",\"ToType\":\"long\"},{\"Dropped\":false,\"FromPath\":[\"numEmployees\"],\"FromType\":\"bigint\",\"ToKey\":\"numEmployees\",\"ToType\":\"long\"},{\"Dropped\":false,\"FromPath\":[\"status\"],\"FromType\":\"string\",\"ToKey\":\"status\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"scriptResponseSetId\"],\"FromType\":\"bigint\",\"ToKey\":\"scriptResponseSetId\",\"ToType\":\"long\"}],\"Name\":\"ApplyMapping\"}},\"node-3\":{\"S3DirectTarget\":{\"Compression\":\"gzip\",\"Format\":\"csv\",\"Inputs\":[\"node-1672916514852\"],\"Name\":\"S3 bucket\",\"PartitionKeys\":[],\"Path\":\"s3://bw-datapipeline/output/\",\"SchemaChangePolicy\":{\"EnableUpdateCatalog\":false}}},\"node-1672916514852\":{\"Filter\":{\"Filters\":[{\"Negated\":false,\"Operation\":\"EQ\",\"Values\":[{\"Type\":\"COLUMNEXTRACTED\",\"Value\":[\"id\"]},{\"Type\":\"CONSTANT\",\"Value\":[\"0\"]}]}],\"Inputs\":[\"node-2\"],\"LogicalOperator\":\"AND\",\"Name\":\"Filter\"}}}",
+  "sourceControlDetails" : {
+    "provider" : "GITHUB",
+    "repository" : "awsgluepracticeset01",
+    "branch" : "main",
+    "folder" : "gluepracticejobs"
+  }
+}
