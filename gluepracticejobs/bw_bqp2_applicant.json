@@ -1,0 +1,39 @@
+{
+  "name" : "bw_bqp2_applicant",
+  "description" : "",
+  "role" : "arn:aws:iam::408540077842:role/aws-glue-s3-read-write",
+  "executionProperty" : {
+    "maxConcurrentRuns" : 1
+  },
+  "command" : {
+    "name" : "glueetl",
+    "scriptLocation" : "s3://aws-glue-assets-408540077842-us-east-1/scripts/bw_bqp2_applicant.py",
+    "pythonVersion" : "3"
+  },
+  "defaultArguments" : {
+    "--enable-metrics" : "true",
+    "--enable-spark-ui" : "true",
+    "--spark-event-logs-path" : "s3://aws-glue-assets-408540077842-us-east-1/sparkHistoryLogs/",
+    "--enable-job-insights" : "true",
+    "--enable-glue-datacatalog" : "true",
+    "--enable-continuous-cloudwatch-log" : "true",
+    "--job-bookmark-option" : "job-bookmark-enable",
+    "--job-language" : "python",
+    "--TempDir" : "s3://aws-glue-assets-408540077842-us-east-1/temporary/"
+  },
+  "maxRetries" : 3,
+  "allocatedCapacity" : 10,
+  "timeout" : 2880,
+  "maxCapacity" : 10.0,
+  "glueVersion" : "3.0",
+  "numberOfWorkers" : 10,
+  "workerType" : "G.1X",
+  "executionClass" : "STANDARD",
+  "codeGenConfigurationNodes" : "{\"node-1\":{\"CatalogSource\":{\"Database\":\"bqp2\",\"Name\":\"Data Catalog table\",\"Table\":\"prompt_response_extended_2\"}},\"node-2\":{\"ApplyMapping\":{\"Inputs\":[\"node-1\"],\"Mapping\":[{\"Dropped\":false,\"FromPath\":[\"promptresponseid\"],\"FromType\":\"long\",\"ToKey\":\"promptresponseid\",\"ToType\":\"long\"},{\"Dropped\":false,\"FromPath\":[\"scriptresponseid\"],\"FromType\":\"long\",\"ToKey\":\"scriptresponseid\",\"ToType\":\"long\"},{\"Dropped\":false,\"FromPath\":[\"rootentity\"],\"FromType\":\"string\",\"ToKey\":\"rootentity\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"entity\"],\"FromType\":\"string\",\"ToKey\":\"entity\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"subentity\"],\"FromType\":\"string\",\"ToKey\":\"subentity\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"subentityid\"],\"FromType\":\"long\",\"ToKey\":\"subentityid\",\"ToType\":\"long\"},{\"Dropped\":false,\"FromPath\":[\"supraattribute\"],\"FromType\":\"string\",\"ToKey\":\"supraattribute\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"attribute\"],\"FromType\":\"string\",\"ToKey\":\"attribute\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"value\"],\"FromType\":\"string\",\"ToKey\":\"value\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"applicationid\"],\"FromType\":\"long\",\"ToKey\":\"applicationid\",\"ToType\":\"long\"},{\"Dropped\":false,\"FromPath\":[\"jobrequestid\"],\"FromType\":\"long\",\"ToKey\":\"jobrequestid\",\"ToType\":\"long\"},{\"Dropped\":false,\"FromPath\":[\"interviewid\"],\"FromType\":\"long\",\"ToKey\":\"interviewid\",\"ToType\":\"long\"},{\"Dropped\":false,\"FromPath\":[\"companyid\"],\"FromType\":\"long\",\"ToKey\":\"companyid\",\"ToType\":\"long\"},{\"Dropped\":false,\"FromPath\":[\"applicantreferenceid\"],\"FromType\":\"long\",\"ToKey\":\"applicantreferenceid\",\"ToType\":\"long\"},{\"Dropped\":false,\"FromPath\":[\"id\"],\"FromType\":\"long\",\"ToKey\":\"id\",\"ToType\":\"long\"},{\"Dropped\":false,\"FromPath\":[\"hcl\"],\"FromType\":\"string\",\"ToKey\":\"hcl\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"datecreated\"],\"FromType\":\"string\",\"ToKey\":\"datecreated\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"dateupdated\"],\"FromType\":\"string\",\"ToKey\":\"dateupdated\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"isdisqualifying\"],\"FromType\":\"boolean\",\"ToKey\":\"isdisqualifying\",\"ToType\":\"boolean\"},{\"Dropped\":false,\"FromPath\":[\"explastused\"],\"FromType\":\"string\",\"ToKey\":\"explastused\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"explevel\"],\"FromType\":\"string\",\"ToKey\":\"explevel\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"state\"],\"FromType\":\"string\",\"ToKey\":\"state\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"fileid\"],\"FromType\":\"string\",\"ToKey\":\"fileid\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"expleveladjusted\"],\"FromType\":\"string\",\"ToKey\":\"expleveladjusted\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"note\"],\"FromType\":\"string\",\"ToKey\":\"note\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"valueadjusted\"],\"FromType\":\"string\",\"ToKey\":\"valueadjusted\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"rating\"],\"FromType\":\"string\",\"ToKey\":\"rating\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"promptoptionhcl\"],\"FromType\":\"string\",\"ToKey\":\"promptoptionhcl\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"inputtype\"],\"FromType\":\"string\",\"ToKey\":\"inputtype\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"groupidx\"],\"FromType\":\"long\",\"ToKey\":\"groupidx\",\"ToType\":\"long\"},{\"Dropped\":false,\"FromPath\":[\"rootscripthcl\"],\"FromType\":\"string\",\"ToKey\":\"rootscripthcl\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"scriptresponsesetid\"],\"FromType\":\"long\",\"ToKey\":\"scriptresponsesetid\",\"ToType\":\"long\"},{\"Dropped\":false,\"FromPath\":[\"prompthcl\"],\"FromType\":\"string\",\"ToKey\":\"prompthcl\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"ranking\"],\"FromType\":\"long\",\"ToKey\":\"ranking\",\"ToType\":\"long\"},{\"Dropped\":false,\"FromPath\":[\"importance\"],\"FromType\":\"long\",\"ToKey\":\"importance\",\"ToType\":\"long\"},{\"Dropped\":false,\"FromPath\":[\"expyears\"],\"FromType\":\"long\",\"ToKey\":\"expyears\",\"ToType\":\"long\"}],\"Name\":\"ApplyMapping\"}},\"node-3\":{\"S3DirectTarget\":{\"Compression\":\"none\",\"Format\":\"csv\",\"Inputs\":[\"node-2\"],\"Name\":\"S3 bucket\",\"PartitionKeys\":[],\"Path\":\"s3://bw-datapipeline/output/\",\"SchemaChangePolicy\":{\"EnableUpdateCatalog\":false}}}}",
+  "sourceControlDetails" : {
+    "provider" : "GITHUB",
+    "repository" : "awsgluepracticeset01",
+    "branch" : "main",
+    "folder" : "gluepracticejobs"
+  }
+}
