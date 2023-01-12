@@ -1,0 +1,39 @@
+{
+  "name" : "bw_bqp2_applicant_references_ratings-copy",
+  "description" : "",
+  "role" : "arn:aws:iam::408540077842:role/aws-glue-s3-read-write",
+  "executionProperty" : {
+    "maxConcurrentRuns" : 1
+  },
+  "command" : {
+    "name" : "glueetl",
+    "scriptLocation" : "s3://aws-glue-assets-408540077842-us-east-1/scripts/bw_bqp2_applicant_references_ratings-copy.py",
+    "pythonVersion" : "3"
+  },
+  "defaultArguments" : {
+    "--enable-metrics" : "true",
+    "--enable-spark-ui" : "true",
+    "--spark-event-logs-path" : "s3://aws-glue-assets-408540077842-us-east-1/sparkHistoryLogs/",
+    "--enable-job-insights" : "true",
+    "--enable-glue-datacatalog" : "true",
+    "--enable-continuous-cloudwatch-log" : "true",
+    "--job-bookmark-option" : "job-bookmark-enable",
+    "--job-language" : "python",
+    "--TempDir" : "s3://aws-glue-assets-408540077842-us-east-1/temporary/"
+  },
+  "maxRetries" : 3,
+  "allocatedCapacity" : 10,
+  "timeout" : 2880,
+  "maxCapacity" : 10.0,
+  "glueVersion" : "3.0",
+  "numberOfWorkers" : 10,
+  "workerType" : "G.1X",
+  "executionClass" : "STANDARD",
+  "codeGenConfigurationNodes" : "{\"node-1672661947647\":{\"CatalogSource\":{\"Database\":\"bqp2\",\"Name\":\"AWS Glue Data Catalog\",\"Table\":\"prompt_responses_extended_csv\"}},\"node-1672669866953\":{\"S3CsvSource\":{\"AdditionalOptions\":{\"EnableSamplePath\":false,\"SamplePath\":\"s3://bw-datapipeline/input/bqp2/applicant_references_202301021930.csv\"},\"Escaper\":\"\",\"Exclusions\":[],\"Name\":\"Amazon S3\",\"OptimizePerformance\":false,\"OutputSchemas\":[{\"Columns\":[{\"Name\":\"id\",\"Type\":\"bigint\"},{\"Name\":\"hcl\",\"Type\":\"string\"},{\"Name\":\"dateCreated\",\"Type\":\"timestamp\"},{\"Name\":\"dateUpdated\",\"Type\":\"timestamp\"},{\"Name\":\"fullName\",\"Type\":\"string\"},{\"Name\":\"email\",\"Type\":\"string\"},{\"Name\":\"phoneNumber\",\"Type\":\"string\"},{\"Name\":\"type\",\"Type\":\"string\"},{\"Name\":\"status\",\"Type\":\"string\"},{\"Name\":\"title\",\"Type\":\"string\"},{\"Name\":\"relationship\",\"Type\":\"string\"},{\"Name\":\"company\",\"Type\":\"string\"},{\"Name\":\"overallRating\",\"Type\":\"int\"},{\"Name\":\"scriptResponseSetId\",\"Type\":\"int\"},{\"Name\":\"applicantId\",\"Type\":\"int\"}]}],\"Paths\":[\"s3://bw-datapipeline/input/bqp2/applicant_references_202301021930.csv\"],\"QuoteChar\":\"quote\",\"Recurse\":true,\"Separator\":\"comma\",\"WithHeader\":true}},\"node-3\":{\"S3DirectTarget\":{\"Compression\":\"gzip\",\"Format\":\"csv\",\"Inputs\":[\"node-1672756281616\"],\"Name\":\"S3 bucket\",\"PartitionKeys\":[],\"Path\":\"s3://bw-datapipeline/output/\",\"SchemaChangePolicy\":{\"Database\":\"bqp2\",\"EnableUpdateCatalog\":false,\"Table\":\"applicant_references_ratings\",\"UpdateBehavior\":\"UPDATE_IN_DATABASE\"}}},\"node-1672756281616\":{\"DropDuplicates\":{\"Columns\":[],\"Inputs\":[\"node-1672661866294\"],\"Name\":\"Drop Duplicates\"}},\"node-1672661866294\":{\"Filter\":{\"Filters\":[{\"Negated\":false,\"Operation\":\"REGEX\",\"Values\":[{\"Type\":\"CONSTANT\",\"Value\":[\"'APPLICANT_REFERENCE'\"]},{\"Type\":\"COLUMNEXTRACTED\",\"Value\":[\"rootentity\"]}]},{\"Negated\":false,\"Operation\":\"REGEX\",\"Values\":[{\"Type\":\"CONSTANT\",\"Value\":[\"'APPLICANT_REFERENCE'\"]},{\"Type\":\"COLUMNEXTRACTED\",\"Value\":[\"entity\"]}]},{\"Negated\":false,\"Operation\":\"REGEX\",\"Values\":[{\"Type\":\"CONSTANT\",\"Value\":[\"'APPLICANT_REFERENCE.RATING'\"]},{\"Type\":\"COLUMNEXTRACTED\",\"Value\":[\"subentity\"]}]},{\"Negated\":false,\"Operation\":\"REGEX\",\"Values\":[{\"Type\":\"CONSTANT\",\"Value\":[\"'OPTION.REFERENCE_RATING_*'\"]},{\"Type\":\"COLUMNEXTRACTED\",\"Value\":[\"attribute\"]}]}],\"Inputs\":[\"node-1672661954675\"],\"LogicalOperator\":\"AND\",\"Name\":\"Filter\"}},\"node-1672662814031\":{\"SelectFields\":{\"Inputs\":[\"node-1672669866953\"],\"Name\":\"Rename Field\",\"Paths\":[[\"id\"]]}},\"node-1672661954675\":{\"Join\":{\"Columns\":[{\"From\":\"node-1672661947647\",\"Keys\":[[\"applicantreferenceid\"]]},{\"From\":\"node-1672662814031\",\"Keys\":[[\"id\"]]}],\"Inputs\":[\"node-1672661947647\",\"node-1672662814031\"],\"JoinType\":\"equijoin\",\"Name\":\"Join\"}}}",
+  "sourceControlDetails" : {
+    "provider" : "GITHUB",
+    "repository" : "awsgluepracticeset01",
+    "branch" : "main",
+    "folder" : "awsgluepracticeset01"
+  }
+}
