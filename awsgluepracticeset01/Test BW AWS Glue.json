@@ -1,0 +1,39 @@
+{
+  "name" : "Test BW AWS Glue",
+  "description" : "",
+  "role" : "arn:aws:iam::408540077842:role/aws-glue-s3-read-write",
+  "executionProperty" : {
+    "maxConcurrentRuns" : 1
+  },
+  "command" : {
+    "name" : "glueetl",
+    "scriptLocation" : "s3://bw-datapipeline/scripts/Test BW AWS Glue.py",
+    "pythonVersion" : "3"
+  },
+  "defaultArguments" : {
+    "--class" : "GlueApp",
+    "--enable-metrics" : "true",
+    "--enable-spark-ui" : "true",
+    "--spark-event-logs-path" : "s3://bw-datapipeline/scripts/",
+    "--enable-job-insights" : "true",
+    "--enable-continuous-cloudwatch-log" : "true",
+    "--job-bookmark-option" : "job-bookmark-enable",
+    "--job-language" : "python",
+    "--TempDir" : "s3://bw-datapipeline/scripts/"
+  },
+  "maxRetries" : 3,
+  "allocatedCapacity" : 10,
+  "timeout" : 2880,
+  "maxCapacity" : 10.0,
+  "glueVersion" : "3.0",
+  "numberOfWorkers" : 10,
+  "workerType" : "G.1X",
+  "executionClass" : "STANDARD",
+  "codeGenConfigurationNodes" : "{\"node-1663248541055\":{\"S3CsvSource\":{\"AdditionalOptions\":{\"EnableSamplePath\":false,\"SamplePath\":\"s3://bw-datapipeline/input/age.csv\"},\"Escaper\":\"\",\"Exclusions\":[],\"Name\":\"age\",\"OptimizePerformance\":false,\"OutputSchemas\":[{\"Columns\":[{\"Name\":\"SN\",\"Type\":\"bigint\"},{\"Name\":\"name\",\"Type\":\"string\"},{\"Name\":\"age\",\"Type\":\"bigint\"}]}],\"Paths\":[\"s3://bw-datapipeline/input/age.csv\"],\"QuoteChar\":\"disabled\",\"Separator\":\"comma\",\"WithHeader\":true}},\"node-1663248664326\":{\"ApplyMapping\":{\"Inputs\":[\"node-1663247760100\"],\"Mapping\":[{\"Dropped\":false,\"FromPath\":[\"SN\"],\"FromType\":\"bigint\",\"ToKey\":\"SN\",\"ToType\":\"long\"},{\"Dropped\":false,\"FromPath\":[\"name\"],\"FromType\":\"string\",\"ToKey\":\"Name\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"gender\"],\"FromType\":\"string\",\"ToKey\":\"Gender\",\"ToType\":\"string\"}],\"Name\":\"rename gender header\"}},\"node-1663249033368\":{\"Join\":{\"Columns\":[{\"From\":\"node-1663248630835\",\"Keys\":[[\"SN\"]]},{\"From\":\"node-1663248664326\",\"Keys\":[[\"SN\"]]}],\"Inputs\":[\"node-1663248630835\",\"node-1663248664326\"],\"JoinType\":\"left\",\"Name\":\"Join-age-gender\"}},\"node-1663249256132\":{\"S3DirectTarget\":{\"Compression\":\"none\",\"Format\":\"csv\",\"Inputs\":[\"node-1663249033368\"],\"Name\":\"output-age-gender\",\"PartitionKeys\":[],\"Path\":\"s3://bw-datapipeline/output/\",\"SchemaChangePolicy\":{\"EnableUpdateCatalog\":false}}},\"node-1663248630835\":{\"ApplyMapping\":{\"Inputs\":[\"node-1663248541055\"],\"Mapping\":[{\"Dropped\":false,\"FromPath\":[\"SN\"],\"FromType\":\"bigint\",\"ToKey\":\"SN\",\"ToType\":\"long\"},{\"Dropped\":false,\"FromPath\":[\"name\"],\"FromType\":\"string\",\"ToKey\":\"Name\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"age\"],\"FromType\":\"bigint\",\"ToKey\":\"age\",\"ToType\":\"long\"}],\"Name\":\"rename age header\"}},\"node-1663247760100\":{\"S3CsvSource\":{\"AdditionalOptions\":{\"EnableSamplePath\":false,\"SamplePath\":\"s3://bw-datapipeline/input/gender.csv\"},\"Escaper\":\"\",\"Exclusions\":[],\"Name\":\"gender\",\"OptimizePerformance\":false,\"OutputSchemas\":[{\"Columns\":[{\"Name\":\"SN\",\"Type\":\"bigint\"},{\"Name\":\"name\",\"Type\":\"string\"},{\"Name\":\"gender\",\"Type\":\"string\"}]}],\"Paths\":[\"s3://bw-datapipeline/input/gender.csv\"],\"QuoteChar\":\"disabled\",\"Separator\":\"comma\",\"WithHeader\":true}}}",
+  "sourceControlDetails" : {
+    "provider" : "GITHUB",
+    "repository" : "awsgluepracticeset01",
+    "branch" : "main",
+    "folder" : "awsgluepracticeset01"
+  }
+}
