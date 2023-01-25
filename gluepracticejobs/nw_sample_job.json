@@ -1,0 +1,42 @@
+{
+  "name" : "nw_sample_job",
+  "description" : "poc - filter, join, calculation of total, productwise total",
+  "role" : "arn:aws:iam::628084902603:role/AWSGlueServiceRole",
+  "executionProperty" : {
+    "maxConcurrentRuns" : 1
+  },
+  "command" : {
+    "name" : "glueetl",
+    "scriptLocation" : "s3://aws-glue-assets-628084902603-us-east-1/scripts/nw_sample_job.py",
+    "pythonVersion" : "3"
+  },
+  "defaultArguments" : {
+    "--enable-metrics" : "true",
+    "--enable-spark-ui" : "true",
+    "--spark-event-logs-path" : "s3://aws-glue-assets-628084902603-us-east-1/sparkHistoryLogs/",
+    "--enable-job-insights" : "true",
+    "--enable-glue-datacatalog" : "true",
+    "--enable-continuous-cloudwatch-log" : "true",
+    "--job-bookmark-option" : "job-bookmark-disable",
+    "--job-language" : "python",
+    "--TempDir" : "s3://aws-glue-assets-628084902603-us-east-1/temporary/"
+  },
+  "connections" : {
+    "connections" : [ "postgreSQL" ]
+  },
+  "maxRetries" : 3,
+  "allocatedCapacity" : 10,
+  "timeout" : 2880,
+  "maxCapacity" : 10.0,
+  "glueVersion" : "3.0",
+  "numberOfWorkers" : 10,
+  "workerType" : "G.1X",
+  "executionClass" : "STANDARD",
+  "codeGenConfigurationNodes" : "{\"node-1674558184192\":{\"Filter\":{\"Filters\":[{\"Negated\":false,\"Operation\":\"EQ\",\"Values\":[{\"Type\":\"COLUMNEXTRACTED\",\"Value\":[\"discontinued\"]},{\"Type\":\"CONSTANT\",\"Value\":[\"0\"]}]}],\"Inputs\":[\"node-1674557667992\"],\"LogicalOperator\":\"AND\",\"Name\":\"Filter_products_discontinued\"}},\"node-1674557833823\":{\"Join\":{\"Columns\":[{\"From\":\"node-1674557629909\",\"Keys\":[[\"product_id\"]]},{\"From\":\"node-1674558184192\",\"Keys\":[[\"product_id\"]]}],\"Inputs\":[\"node-1674557629909\",\"node-1674558184192\"],\"JoinType\":\"equijoin\",\"Name\":\"Join_OrderDetails_products\"}},\"node-1674557667992\":{\"PostgreSQLCatalogSource\":{\"Database\":\"targetcatalog\",\"Name\":\"PostgreSQL_products\",\"Table\":\"postgres_public_products\"}},\"node-1674557629909\":{\"PostgreSQLCatalogSource\":{\"Database\":\"targetcatalog\",\"Name\":\"PostgreSQL_OrderDetails\",\"Table\":\"postgres_public_order_details\"}},\"node-1674558899338\":{\"SparkSQL\":{\"Inputs\":[\"node-1674558264793\"],\"Name\":\"SQL Query\",\"OutputSchemas\":[{\"Columns\":[{\"Name\":\"order_id\",\"Type\":\"int\"},{\"Name\":\"product_id\",\"Type\":\"int\"},{\"Name\":\"product_name\",\"Type\":\"int\"},{\"Name\":\"total_sales\",\"Type\":\"double\"}]}],\"SqlAliases\":[{\"Alias\":\"myDataSource\",\"From\":\"node-1674558264793\"}],\"SqlQuery\":\"select \\norder_id, product_id, product_name, quantity * ( unit_price - discount ) as total_sales from myDataSource\\n\"}},\"node-1674558627001\":{\"Aggregate\":{\"Aggs\":[{\"AggFunc\":\"sum\",\"Column\":[\"total_sales\"]}],\"Groups\":[[\"product_id\"],[\"product_name\"]],\"Inputs\":[\"node-1674558899338\"],\"Name\":\"Aggregate\"}},\"node-1674558264793\":{\"SelectFields\":{\"Inputs\":[\"node-1674557833823\"],\"Name\":\"Select Fields\",\"Paths\":[[\"product_id\"],[\"product_name\"],[\"unit_price\"],[\"quantity\"],[\"discount\"],[\"order_id\"],[\"category_id\"]]}},\"node-1674559411041\":{\"S3GlueParquetTarget\":{\"Compression\":\"gzip\",\"Inputs\":[\"node-1674558627001\"],\"Name\":\"Amazon S3\",\"PartitionKeys\":[],\"Path\":\"s3://bw-brainwahve/targetfolder/\",\"SchemaChangePolicy\":{\"Database\":\"targetcatalog\",\"EnableUpdateCatalog\":true,\"Table\":\"tgt_product_sales\",\"UpdateBehavior\":\"UPDATE_IN_DATABASE\"}}}}",
+  "sourceControlDetails" : {
+    "provider" : "GITHUB",
+    "repository" : "awsgluepracticeset01",
+    "branch" : "main",
+    "folder" : "gluepracticejobs"
+  }
+}
